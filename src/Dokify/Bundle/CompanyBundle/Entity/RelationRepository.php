@@ -73,6 +73,10 @@ class RelationRepository extends \Doctrine\ORM\EntityRepository
         $qb->setParameter(':companies', $companies);
         $qb->groupBy("c.id");
 
+        if (null !== $orderBy && null !== $sortBy) {
+            $qb->orderBy('re.' . $orderBy, $sortBy);
+        }
+
         return $qb->getQuery()->getResult();
     }
 }
