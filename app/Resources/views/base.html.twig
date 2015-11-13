@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Dokify Company{% endblock %}</title>
+        {% block stylesheets %}
+            {% stylesheets 'libs/bootstrap/dist/css/bootstrap.min.css' 'libs/fontawesome/css/font-awesome.min.css' filter='cssrewrite' output='css/compiled/main.css' %}
+            <link rel="stylesheet" href="{{ asset_url }}" />
+            {% endstylesheets %}
+        {% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+    <body>
+        {% block body %}{% endblock %}
+        {% block javascripts %}
+            {% javascripts 'libs/bootstrap/dist/js/bootstrap.min.js' 'libs/jquery/dist/jquery.min.js' 'libs/chosen/chosen.jquery.min.js' output='js/compiled/main.js' %}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+        {% endblock %}
+    </body>
+</html>

@@ -1,0 +1,3 @@
+dokify_company:
+    resource: "@DokifyCompanyBundle/Controller/"
+    type:     annotation
