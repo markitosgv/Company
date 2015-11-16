@@ -13,7 +13,9 @@
     <body>
         {% block body %}{% endblock %}
         {% block javascripts %}
-            {% javascripts 'libs/bootstrap/dist/js/bootstrap.min.js' 'libs/jquery/dist/jquery.min.js' 'libs/chosen/chosen.jquery.min.js' output='js/compiled/main.js' %}
+            <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+            <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
+            {% javascripts 'libs/jquery/dist/jquery.min.js' 'libs/bootstrap/dist/js/bootstrap.min.js' 'libs/chosen/chosen.jquery.min.js' output='js/compiled/main.js' %}
             <script type="text/javascript" src="{{ asset_url }}"></script>
             {% endjavascripts %}
         {% endblock %}

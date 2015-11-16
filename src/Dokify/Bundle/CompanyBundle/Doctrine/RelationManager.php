@@ -3,8 +3,11 @@
 namespace Dokify\Bundle\CompanyBundle\Doctrine;
 
 use Doctrine\Common\Persistence\ObjectManager;
+use Dokify\Bundle\AdminCompanyBundle\Form\Relation\RelationType;
 use Dokify\Bundle\CompanyBundle\Entity\Company;
+use Dokify\Bundle\CompanyBundle\Entity\Relation;
 use Dokify\Bundle\CompanyBundle\Entity\Role;
+use Dokify\Bundle\CompanyBundle\Model\RoleTypes;
 
 class RelationManager
 {
@@ -29,31 +32,78 @@ class RelationManager
     /**
      * Creates a relation instance
      *
-     * @param $relation
-     * @param Company $company
-     * @param Role $role
-     *
-     * @return Company
+     * @return Relation
      */
-    public function create($relation, Company $company, Role $role)
+    public function create($relationGroup)
     {
         $class = $this->getClass();
-        $company = new $class($relation, $company, $role);
+        $relation = new $class($relationGroup);
 
-        return $company;
+        return $relation;
     }
 
     /**
      * Get company relations by company
      *
-     * @param Company  $company
-     * @param int|null $role
+     * @param Company     $company
+     * @param Role|null   $role
+     * @param string|null $orderBy
+     * @param string|null $sortBy
      *
      * @return mixed
      */
-    public function getCompanyRelations($company, $role = null)
+    public function getCompanyRelations($company, $role = null, $orderBy = null, $sortBy = null)
     {
-        return $this->repository->getCompanyRelations($company, $role);
+        return $this->repository->getCompanyRelations($company, $role, $orderBy, $sortBy);
+    }
+
+    /**
+     * Get company relations by company
+     *
+     * @param Company     $company
+     *
+     * @return mixed
+     */
+    public function getCompanyClientsSuppliers($company, $companies)
+    {
+        return $this->repository->getCompanyClientsSuppliers($company, $companies);
+    }
+
+    /**
+     * Persist relation
+     *
+     * @param Company  $company
+     * @param Relation $relation
+     * @param Role     $role
+     * @param bool|true $andFlush
+     */
+    public function save(Company $company, Relation $relation, Role $role, $andFlush = true)
+    {
+        $sideRelation = $this->create($relation->getRelationGroup());
+        $sideRelation->setCompany($company);
+        $sideRelation->setRole($role);
+
+        $this->objectManager->persist($sideRelation);
+        $this->objectManager->persist($relation);
+
+        if ($andFlush) {
+            $this->objectManager->flush();
+        }
+    }
+
+    /**
+     * Persist affiliation relation
+     *
+     * @param Relation $relation
+     * @param bool|true $andFlush
+     */
+    public function saveAffiliation(Relation $relation, $andFlush = true)
+    {
+        $this->objectManager->persist($relation);
+
+        if ($andFlush) {
+            $this->objectManager->flush();
+        }
     }
 
     /**

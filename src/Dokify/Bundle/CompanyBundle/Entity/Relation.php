@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Relation
  *
- * @ORM\Table(name="relations", uniqueConstraints={@ORM\UniqueConstraint(name="relation_company", columns={"relation", "company_id"})})
+ * @ORM\Table(name="relations", uniqueConstraints={@ORM\UniqueConstraint(name="relation_company", columns={"relation_group_id", "company_id"})})
  * @ORM\Entity(repositoryClass="RelationRepository")
  */
 class Relation
@@ -22,11 +22,10 @@ class Relation
     private $id;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="relation", type="integer", nullable=false)
+     * @ORM\ManyToOne(targetEntity="RelationGroup", cascade={"persist"})
+     * @ORM\JoinColumn(name="relation_group_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
-    private $relation;
+    private $relationGroup;
 
     /**
      * @ORM\ManyToOne(targetEntity="Company")
@@ -40,11 +39,9 @@ class Relation
      */
     private $role;
 
-    public function __construct($relation, Company $company, Role $role)
+    public function __construct($relationGroup)
     {
-        $this->relation = $relation;
-        $this->company = $company;
-        $this->role = $role;
+        $this->relationGroup = $relationGroup;
     }
 
     /**
@@ -58,37 +55,37 @@ class Relation
     }
 
     /**
-     * Set relation
+     * Set relationGroup
      *
-     * @param integer $relation
+     * @param \Dokify\Bundle\CompanyBundle\Entity\RelationGroup $relationGroup
      *
      * @return Relation
      */
-    public function setRelation($relation)
+    public function setRelationGroup(\Dokify\Bundle\CompanyBundle\Entity\RelationGroup $relationGroup)
     {
-        $this->relation = $relation;
+        $this->relationGroup = $relationGroup;
 
         return $this;
     }
 
     /**
-     * Get relation
+     * Get relationGroup
      *
-     * @return integer
+     * @return \Dokify\Bundle\CompanyBundle\Entity\RelationGroup
      */
-    public function getRelation()
+    public function getRelationGroup()
     {
-        return $this->relation;
+        return $this->relationGroup;
     }
 
     /**
      * Set company
      *
-     * @param Company $company
+     * @param \Dokify\Bundle\CompanyBundle\Entity\Company $company
      *
      * @return Relation
      */
-    public function setCompany(Company $company = null)
+    public function setCompany(\Dokify\Bundle\CompanyBundle\Entity\Company $company)
     {
         $this->company = $company;
 
@@ -98,7 +95,7 @@ class Relation
     /**
      * Get company
      *
-     * @return Company
+     * @return \Dokify\Bundle\CompanyBundle\Entity\Company
      */
     public function getCompany()
     {
@@ -108,11 +105,11 @@ class Relation
     /**
      * Set role
      *
-     * @param Role $role
+     * @param \Dokify\Bundle\CompanyBundle\Entity\Role $role
      *
      * @return Relation
      */
-    public function setRole(Role $role = null)
+    public function setRole(\Dokify\Bundle\CompanyBundle\Entity\Role $role)
     {
         $this->role = $role;
 
@@ -122,7 +119,7 @@ class Relation
     /**
      * Get role
      *
-     * @return Role
+     * @return \Dokify\Bundle\CompanyBundle\Entity\Role
      */
     public function getRole()
     {

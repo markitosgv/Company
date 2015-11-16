@@ -1,3 +1,11 @@
+dokify_admin_company:
+    resource: "@DokifyAdminCompanyBundle/Controller/"
+    type:     annotation
+    prefix: /admin
+
 dokify_company:
     resource: "@DokifyCompanyBundle/Controller/"
     type:     annotation
+
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"

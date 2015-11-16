@@ -29,14 +29,12 @@ class CompanyManager
     /**
      * Creates a company instance
      *
-     * @param string $name
-     *
      * @return Company
      */
-    public function create($name)
+    public function create()
     {
         $class = $this->getClass();
-        $company = new $class($name);
+        $company = new $class();
 
         return $company;
     }
@@ -46,7 +44,7 @@ class CompanyManager
      *
      * @param $id
      *
-     * @return Company[]
+     * @return Company
      */
     public function get($id)
     {
@@ -61,6 +59,36 @@ class CompanyManager
     public function findAll()
     {
         return $this->repository->findAll();
+    }
+
+    /**
+     * Persist company
+     *
+     * @param Company   $company
+     * @param bool|true $andFlush
+     */
+    public function save(Company $company, $andFlush = true)
+    {
+        $this->objectManager->persist($company);
+
+        if ($andFlush) {
+            $this->objectManager->flush();
+        }
+    }
+
+    /**
+     * Remove company
+     *
+     * @param Company   $company
+     * @param bool|true $andFlush
+     */
+    public function remove(Company $company, $andFlush = true)
+    {
+        $this->objectManager->remove($company);
+
+        if ($andFlush) {
+            $this->objectManager->flush();
+        }
     }
 
     /**

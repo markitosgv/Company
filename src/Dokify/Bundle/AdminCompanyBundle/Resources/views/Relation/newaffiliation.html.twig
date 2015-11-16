@@ -1,0 +1,56 @@
+{% extends '@DokifyAdminCompany/layout.html.twig' %}
+
+{% block content %}
+    <div class="container">
+
+        <div class="row">
+            {{ form_start(form) }}
+            <input id="data" name="data" type="hidden" value=""/>
+            <input id="name" name="name" type="hidden" value=""/>
+            <div id="namerelations"></div>
+            <select id="select_company" class="form-control">
+                <option selected="selected">Select a company...</option>
+                {% for company in companies %}
+                    <option value="{{ company.id }}">{{ company.name }}</option>
+                {% endfor %}
+            </select>
+            <div class="append">
+
+            </div>
+            {{ form_end(form) }}
+        </div>
+
+    </div><!-- /.container -->
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        var count = 1;
+        $("body").on("change", "#select_company", function(e){
+            if (count >= 3) {
+                $("#dokify_bundle_companybundle_affiliation_save").show();
+            }
+            var select = $(this);
+            var company = $(this).val();
+            var companyName = $("#select_company :selected").text();
+            if ($("#data").val() == "") {
+                $("#data").val(company);
+                $("#name").val(companyName);
+                $("#namerelations").html(companyName);
+            } else {
+                $("#data").val($("#data").val() + "," + company);
+                $("#name").val($("#name").val() + " -> " + companyName);
+                $("#namerelations").html($("#namerelations").html()+" -> "+companyName);
+            }
+
+            $.post(Routing.generate('admin_related_affiliations_companies', { company: company }), { data: $("#data").val() }, function( data ) {
+                select.remove();
+                $(".append").append(data);
+            });
+            count++;
+        });
+
+        $("#dokify_bundle_companybundle_affiliation_save").hide();
+    </script>
+{% endblock %}

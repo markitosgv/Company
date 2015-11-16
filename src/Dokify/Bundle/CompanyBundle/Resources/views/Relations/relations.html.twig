@@ -1,0 +1,64 @@
+<div class="col-xs-12">
+    <h2>Company relations...</h2>
+    <div class="row">
+        <div class="col-xs-4">
+            <select id="select_role" class="form-control">
+                <option selected="selected">Filter by relation...</option>
+                <option value="">All</option>
+                {% for role in roles %}
+                    <option value="{{ role.id }}">I'm {{ role.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-xs-12">
+            <table id="table" class="table table-striped table-bordered">
+                <thead>
+                <th><a id="company_related" href="#">Company</a></th>
+                <th><a id="role_related" href="#">Relation Type</a></th>
+                <th>Relation Group</th>
+                </thead>
+                <tbody>
+                {% for relation in relations %}
+                    <tr>
+                        <td>{{ relation.company.name }}</td>
+                        <td><b>{{ relation.role.name }}</b></td>
+                        <td>{{ relation.relationGroup.name }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    var company = '{{ company.id }}';
+    var role = '{{ (role.id is defined) ? role.id : "" }}';
+    var sortBy = '{{ sortBy }}';
+    sortBy = (sortBy == 'ASC') ? 'DESC' : 'ASC';
+
+    $("#company_related").on("click", function(){
+
+        $.get(Routing.generate('companies_related', { company: company, role: role, 'orderBy': 'company', 'sortBy': sortBy }), function( data ) {
+            $("#relations").html(data);
+        });
+    });
+
+    $("#role_related").on("click", function(){
+
+        $.get(Routing.generate('companies_related', { company: company, role: role, 'orderBy': 'role', 'sortBy': sortBy }), function( data ) {
+            $("#relations").html(data);
+        });
+    });
+
+    $("#select_role").on("change", function(){
+
+        var role = $(this).val();
+        $.get(Routing.generate('companies_related', { company: company, role: role }), function( data ) {
+            $("#relations").html(data);
+        });
+    });
+</script>

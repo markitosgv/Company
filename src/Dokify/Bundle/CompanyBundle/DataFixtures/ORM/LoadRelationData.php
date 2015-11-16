@@ -9,6 +9,7 @@ use Dokify\Bundle\CompanyBundle\Entity\Relation;
 
 class LoadRelationData extends AbstractFixture implements OrderedFixtureInterface
 {
+
     private $companyRelations = array(
         1 => array(
             1 => "role-supplier",
@@ -39,23 +40,26 @@ class LoadRelationData extends AbstractFixture implements OrderedFixtureInterfac
         ),
     );
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $om)
     {
         foreach ($this->companyRelations as $companyId => $relations) {
-            foreach ($relations as $relation => $role) {
+            foreach ($relations as $relationGroupName => $role) {
+                $relationGroup = $this->getReference('relationgroup-'.$relationGroupName);
                 $company = $this->getReference('company-'.$companyId);
                 $role = $this->getReference($role);
 
-                $relation = new Relation($relation, $company, $role);
-                $manager->persist($relation);
+                $relation = new Relation($relationGroup);
+                $relation->setCompany($company);
+                $relation->setRole($role);
+                $om->persist($relation);
             }
         }
 
-        $manager->flush();
+        $om->flush();
     }
 
     public function getOrder()
     {
-        return 3;
+        return 4;
     }
 }

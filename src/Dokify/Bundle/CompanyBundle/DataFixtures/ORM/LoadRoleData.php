@@ -9,21 +9,25 @@ use Dokify\Bundle\CompanyBundle\Entity\Role;
 
 class LoadRoleData extends AbstractFixture implements OrderedFixtureInterface
 {
+
     private $roles = array(
-        "Supplier",
-        "Client",
-        "Affiliated",
+        "SUP" => "Supplier",
+        "CLI" => "Client",
+        "AFF" => "Affiliated",
     );
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $om)
     {
-        foreach ($this->roles as $name) {
-            $role = new Role($name);
-            $manager->persist($role);
+        foreach ($this->roles as $key => $name) {
+            $role = new Role();
+            $role->setKey($key);
+            $role->setName($name);
+            $om->persist($role);
 
             $this->addReference('role-'.strtolower($name), $role);
         }
-        $manager->flush();
+
+        $om->flush();
     }
 
     public function getOrder()

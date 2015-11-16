@@ -12,15 +12,15 @@ final class RoleTypes
     /**
      * ROLE_SUPPLIER
      */
-    const ROLE_SUPPLIER = 1;
+    const ROLE_SUPPLIER = "SUP";
 
     /**
      * ROLE_CLIENT
      */
-    const ROLE_CLIENT = 2;
+    const ROLE_CLIENT = "CLI";
 
     /**
      * ROLE_AFFILIATED
      */
-    const ROLE_AFFILIATED = 3;
+    const ROLE_AFFILIATED = "AFF";
 }

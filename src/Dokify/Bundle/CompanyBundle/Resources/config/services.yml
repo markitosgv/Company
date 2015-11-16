@@ -2,6 +2,7 @@ parameters:
   dokify.companybundle.company.class: Dokify\Bundle\CompanyBundle\Entity\Company
   dokify.companybundle.role.class: Dokify\Bundle\CompanyBundle\Entity\Role
   dokify.companybundle.relation.class: Dokify\Bundle\CompanyBundle\Entity\Relation
+  dokify.companybundle.relation_group.class: Dokify\Bundle\CompanyBundle\Entity\RelationGroup
 
 services:
     dokify.companybundle.company_manager:
@@ -15,3 +16,7 @@ services:
     dokify.companybundle.relation_manager:
         class: Dokify\Bundle\CompanyBundle\Doctrine\RelationManager
         arguments: [@doctrine.orm.entity_manager, %dokify.companybundle.relation.class%]
+
+    dokify.companybundle.relation_group_manager:
+        class: Dokify\Bundle\CompanyBundle\Doctrine\RelationGroupManager
+        arguments: [@doctrine.orm.entity_manager, %dokify.companybundle.relation_group.class%]

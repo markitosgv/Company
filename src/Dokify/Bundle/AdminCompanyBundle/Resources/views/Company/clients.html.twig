@@ -1,0 +1,53 @@
+{% extends '@DokifyAdminCompany/layout.html.twig' %}
+
+{% block content %}
+<div class="container">
+    <h1>Clients of {{ company.name }}</h1>
+    <div class="row">
+        <div class="row">
+            <div class="col-xs-12">
+                <a href="{{ path('admin_new_client_companies', {'company': company.id }) }}" type="button" class="btn btn-success pull-right"><i class="fa fa-plus fa-fw"></i>&nbsp;New Client</a>
+            </div>
+        </div>
+        <p></p>
+        <div class="row">
+            <div class="col-xs-12">
+                <table id="table" class="table table-striped table-bordered">
+                    <thead>
+                    <th>ID</th>
+                    <th>Company</th>
+                    <th>Name</th>
+                    <th>Actions</th>
+                    </thead>
+                    <tbody>
+                    {% for relation in relations %}
+                        <tr>
+                            <td>{{ relation.id }}</td>
+                            <td><b>{{ relation.company.name }}</b></td>
+                            <td>{{ relation.relationGroup.name }}</td>
+                            <td>
+                                <form action="{{ path('admin_delete_client_companies', { 'company': company.id, 'relationGroup': relation.relationGroup.id }) }}" method="post">
+                                    <input type="hidden" name="_method" value="DELETE" />
+                                    <button type="submit" class="btn btn-danger btn-xs">
+                                        <i class="fa fa-trash fa-fw"></i>
+                                        &nbsp;Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div><!-- /.container -->
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+
+    </script>
+{% endblock %}

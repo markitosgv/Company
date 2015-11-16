@@ -1,0 +1,3 @@
+dokify_admin_company_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: DokifyAdminCompanyBundle:Default:index }

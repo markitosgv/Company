@@ -3,9 +3,11 @@
 namespace Dokify\Bundle\CompanyBundle\Doctrine;
 
 use Doctrine\Common\Persistence\ObjectManager;
+use Dokify\Bundle\CompanyBundle\Entity\Relation;
+use Dokify\Bundle\CompanyBundle\Entity\RelationGroup;
 use Dokify\Bundle\CompanyBundle\Entity\Role;
 
-class RoleManager
+class RelationGroupManager
 {
     protected $objectManager;
     protected $class;
@@ -26,53 +28,31 @@ class RoleManager
     }
 
     /**
-     * Creates a role instance
+     * Creates a relation group instance
      *
-     * @return Role
+     * @return RelationGroup
      */
     public function create()
     {
         $class = $this->getClass();
-        $role = new $class();
+        $relationGroup = new $class();
 
-        return $role;
+        return $relationGroup;
     }
 
     /**
-     * Get all companies
+     * Remove company
      *
-     * @return Role[]
+     * @param RelationGroup $relationGroup
+     * @param bool|true     $andFlush
      */
-    public function findAll()
+    public function remove(RelationGroup $relationGroup, $andFlush = true)
     {
-        return $this->repository->findAll();
-    }
-
-    /**
-     * Persist role
-     *
-     * @param Role      $role
-     * @param bool|true $andFlush
-     */
-    public function save(Role $role, $andFlush = true)
-    {
-        $this->objectManager->persist($role);
+        $this->objectManager->remove($relationGroup);
 
         if ($andFlush) {
             $this->objectManager->flush();
         }
-    }
-
-    /**
-     * Get a Role
-     *
-     * @param $role
-     *
-     * @return Role
-     */
-    public function get($role)
-    {
-        return $this->repository->findOneBy(array('key' => $role));
     }
 
     /**

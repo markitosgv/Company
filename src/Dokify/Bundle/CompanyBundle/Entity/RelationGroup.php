@@ -3,16 +3,14 @@
 namespace Dokify\Bundle\CompanyBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * Role
+ * RelationGroup
  *
- * @ORM\Table(name="roles")
+ * @ORM\Table()
  * @ORM\Entity
- * @UniqueEntity("key")
  */
-class Role
+class RelationGroup
 {
     /**
      * @var integer
@@ -26,16 +24,10 @@ class Role
     /**
      * @var string
      *
-     * @ORM\Column(name="`key`", type="string", length=4, unique=true, nullable=false)
-     */
-    private $key;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=16, nullable=false)
+     * @ORM\Column(name="name", type="string", length=255, unique=true)
      */
     private $name;
+
 
     /**
      * Get id
@@ -52,7 +44,7 @@ class Role
      *
      * @param string $name
      *
-     * @return Role
+     * @return RelationGroup
      */
     public function setName($name)
     {
@@ -71,35 +63,9 @@ class Role
         return $this->name;
     }
 
-    /**
-     * Set key
-     *
-     * @param string $key
-     *
-     * @return Role
-     */
-    public function setKey($key)
-    {
-        $this->key = $key;
-
-        return $this;
-    }
-
-    /**
-     * Get key
-     *
-     * @return string
-     */
-    public function getKey()
-    {
-        return $this->key;
-    }
-
-    /**
-     * @return string
-     */
     public function __toString()
     {
         return $this->name;
     }
 }
+

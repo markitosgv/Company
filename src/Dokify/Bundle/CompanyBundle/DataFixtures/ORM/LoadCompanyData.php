@@ -9,6 +9,7 @@ use Dokify\Bundle\CompanyBundle\Entity\Company;
 
 class LoadCompanyData extends AbstractFixture implements OrderedFixtureInterface
 {
+
     private $companies = array(
         1 => "Company 1",
         2 => "Company 2",
@@ -17,15 +18,18 @@ class LoadCompanyData extends AbstractFixture implements OrderedFixtureInterface
         5 => "Company 5",
     );
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $om)
     {
+
         foreach ($this->companies as $key => $name) {
-            $company = new Company($name);
-            $manager->persist($company);
+            $company = new Company();
+            $company->setName($name);
+            $om->persist($company);
 
             $this->addReference('company-'.$key, $company);
         }
-        $manager->flush();
+
+        $om->flush();
     }
 
     public function getOrder()

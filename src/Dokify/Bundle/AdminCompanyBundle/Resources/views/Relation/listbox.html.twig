@@ -1,0 +1,6 @@
+<select id="select_company" class="form-control">
+    <option selected="selected">Select a company...</option>
+    {% for relation in relations %}
+        <option value="{{ relation.company.id }}">{{ relation.company.name }}</option>
+    {% endfor %}
+</select>
