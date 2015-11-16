@@ -77,7 +77,9 @@ class AffiliationController extends Controller
     public function affiliationsAction(Company $company)
     {
         $relationManager = $this->get('dokify.companybundle.relation_manager');
-        $relations = $relationManager->getCompanyRelations($company, RoleTypes::ROLE_AFFILIATED);
+        $roleManager = $this->get('dokify.companybundle.role_manager');
+        $role = $roleManager->get(RoleTypes::ROLE_AFFILIATED);
+        $relations = $relationManager->getCompanyRelations($company, $role);
 
         return $this->render('DokifyAdminCompanyBundle:Company:affiliations.html.twig', array(
             'relations' => $relations,

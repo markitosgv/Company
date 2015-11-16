@@ -23,7 +23,7 @@ class RelationRepository extends \Doctrine\ORM\EntityRepository
 
         if (null !== $role) {
             $sq->andWhere('ro.key = :role');
-            $sq->setParameter(':role', $role);
+            $sq->setParameter(':role', $role->getKey());
         }
 
         $qb = $this->getEntityManager()->createQueryBuilder();
@@ -35,7 +35,7 @@ class RelationRepository extends \Doctrine\ORM\EntityRepository
         $qb->where('re.company != :company');
         $qb->andWhere('re.relationGroup IN (:relations)');
         $qb->setParameter(':company', $company);
-        $qb->setParameter(':relations', $sq->getQuery()->getScalarResult());
+        $qb->setParameter(':relations', $sq->getQuery()->getScalarResult() ? $sq->getQuery()->getScalarResult() : '');
 
         if (null !== $orderBy && null !== $sortBy) {
             $qb->orderBy('re.' . $orderBy, $sortBy);
@@ -69,7 +69,7 @@ class RelationRepository extends \Doctrine\ORM\EntityRepository
         $qb->andWhere('re.relationGroup IN (:relations)');
         $qb->andWhere('re.company NOT IN (:companies)');
         $qb->setParameter(':company', $company);
-        $qb->setParameter(':relations', $sq->getQuery()->getScalarResult());
+        $qb->setParameter(':relations', $sq->getQuery()->getScalarResult() ? $sq->getQuery()->getScalarResult() : '');
         $qb->setParameter(':companies', $companies);
         $qb->groupBy("c.id");
 
