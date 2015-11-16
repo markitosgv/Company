@@ -24,7 +24,9 @@ class SupplierController extends Controller
     public function suppliersAction(Company $company)
     {
         $relationManager = $this->get('dokify.companybundle.relation_manager');
-        $relations = $relationManager->getCompanyRelations($company, RoleTypes::ROLE_CLIENT);
+        $roleManager = $this->get('dokify.companybundle.role_manager');
+        $role = $roleManager->get(RoleTypes::ROLE_CLIENT);
+        $relations = $relationManager->getCompanyRelations($company, $role);
 
         return $this->render('DokifyAdminCompanyBundle:Company:suppliers.html.twig', array(
             'relations' => $relations,

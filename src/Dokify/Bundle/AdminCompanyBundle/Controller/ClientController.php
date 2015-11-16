@@ -24,7 +24,9 @@ class ClientController extends Controller
     public function clientsAction(Company $company)
     {
         $relationManager = $this->get('dokify.companybundle.relation_manager');
-        $relations = $relationManager->getCompanyRelations($company, RoleTypes::ROLE_SUPPLIER);
+        $roleManager = $this->get('dokify.companybundle.role_manager');
+        $role = $roleManager->get(RoleTypes::ROLE_SUPPLIER);
+        $relations = $relationManager->getCompanyRelations($company, $role);
 
         return $this->render('DokifyAdminCompanyBundle:Company:clients.html.twig', array(
             'relations' => $relations,
